@@ -45,4 +45,18 @@ class Grid
 		cells.all? {|cell| cell.filled_out?}
 	end
 
+	def display_solution
+		rows = []
+		rows << [cells[0..8].map {|cell| cell.value}]
+		rows << [cells[9..17].map {|cell| cell.value}]
+		rows << [cells[18..26].map {|cell| cell.value}]
+		rows << [cells[27..35].map {|cell| cell.value}]
+		rows << [cells[36..44].map {|cell| cell.value}]
+		rows << [cells[45..53].map {|cell| cell.value}]
+		rows << [cells[54..62].map {|cell| cell.value}]
+		rows << [cells[63..71].map {|cell| cell.value}]
+		rows << [cells[72..80].map {|cell| cell.value}]
+		table = Terminal::Table.new :rows => rows
+		puts table
+	end
 end
