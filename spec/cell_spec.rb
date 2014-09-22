@@ -68,7 +68,7 @@ describe 'cell' do
 			expect(cell.value).to eq 9
 		end
 
-		it 'should return self if the cell has more than one possible candidate' do
+		it 'should not update the cell value if more than one possible candidate' do
 			neighbours.take(5).each {|n| unsolved_cell.neighbours << n}
 			unsolved_cell.solve
 			expect(unsolved_cell.value).to eq 0
