@@ -6,6 +6,7 @@ describe 'cell' do
 	let(:neighbour_cell) {Cell.new(3, 8) }
 	let(:unsolved_cell)  {Cell.new(1, 0) }
 	let(:random_cell)    {Cell.new(71, 9)}
+	let(:neighbours)     {[Cell.new(0, 1),Cell.new(0, 2), Cell.new(0, 3), Cell.new(0, 4), Cell.new(0, 5), Cell.new(0, 6), Cell.new(0, 7), Cell.new(0, 8)]}
 
 	context 'on initialization' do
 		it 'it has a value' do
@@ -56,11 +57,21 @@ describe 'cell' do
 			expect(cell.candidates).to eq [1, 2, 3, 4, 5, 6, 7, 9]
 		end
 
-		# it 'should be able to solve itself if there is only one possible candidate' do
-		# 	unsolved_cell.neighbours << [Cell.new(0, 1),Cell.new(0, 2), Cell.new(0, 3), Cell.new(0, 4), Cell.new(0, 5), Cell.new(0, 6), Cell.new(0, 7), Cell.new(0, 8)]
-		# 	puts unsolved_cell.neighbours
-		# 	unsolved_cell.solve
-		# 	expect(unsolved_cell.value).to eq 9
-		# end
+		it 'should be able to solve itself if there is only one possible candidate' do
+			neighbours.each {|n| unsolved_cell.neighbours << n}
+			unsolved_cell.solve
+			expect(unsolved_cell.value).to eq 9
+		end
+
+		it 'should return self if the cell is already filled out' do
+			expect(cell.solve).to eq cell
+			expect(cell.value).to eq 9
+		end
+
+		it 'should return self if the cell has more than one possible candidate' do
+			neighbours.take(5).each {|n| unsolved_cell.neighbours << n}
+			unsolved_cell.solve
+			expect(unsolved_cell.value).to eq 0
+		end
 	end
 end
