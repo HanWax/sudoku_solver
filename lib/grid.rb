@@ -38,25 +38,32 @@ class Grid
 	end
 
 	def try_to_solve
-		cells.each {|cell| cell.solve}
+		cells.each(&:solve)
 	end
 
 	def solved?
-		cells.all? {|cell| cell.filled_out?}
+		cells.all?(&:filled_out?)
 	end
 
-	def display_solution
+	def inspect
+		cells.group_by(&:row)
+	end
+
+	def get_all_rows row_number
+		inspect
+		inspect[row_number].map(&:value)
+	end
+
+	def display_puzzle
 		rows = []
-		rows << [cells[0..8].map {|cell| cell.value}]
-		rows << [cells[9..17].map {|cell| cell.value}]
-		rows << [cells[18..26].map {|cell| cell.value}]
-		rows << [cells[27..35].map {|cell| cell.value}]
-		rows << [cells[36..44].map {|cell| cell.value}]
-		rows << [cells[45..53].map {|cell| cell.value}]
-		rows << [cells[54..62].map {|cell| cell.value}]
-		rows << [cells[63..71].map {|cell| cell.value}]
-		rows << [cells[72..80].map {|cell| cell.value}]
-		table = Terminal::Table.new :rows => rows
+		rows << (0..8).to_a.map{|n| get_all_rows(n)}
+		table = Terminal::Table.new :rows => rows.flatten(1)
 		puts table
+	end
+
+	def run
+		add_neighbours_to_cells
+		solve
+		display_puzzle
 	end
 end

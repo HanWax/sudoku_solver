@@ -22,7 +22,7 @@ class Cell
 	end
 
 	def numbers_taken
-		neighbours.map {|neighbour| neighbour.value}
+		neighbours.map(&:value)
 	end
 
 	def candidates
